@@ -1,0 +1,21 @@
+PASOS PARA MIGRAR LARAVEL
+
+1 SIEMPRE COMPILAR BUILD CON EL ENV EN MODO PRODUCCION Y ERROR LOG FALSE
+
+2 EJECUTAR 
+rm -rf public/storage
+php artisan storage:link
+
+
+CAMBIAR DE config/filesystems.php
+
+
+
+'public' => [
+    'driver' => 'local',
+    'root' => public_path('storage'),     // <-- antes era storage_path('app/public')
+    'url' => env('APP_URL').'/storage',
+    'visibility' => 'public',
+    'throw' => false,
+    'report' => false,
+],

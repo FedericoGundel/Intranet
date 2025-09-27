@@ -1,0 +1,92 @@
+{
+    "expire_lapse": "720.0",
+    "sms": [
+        {
+            "type": "start",
+            "recipient": "SIGNATORY",
+            "reminder_lapse": "0",
+            "registered": "Y",
+            "text": "Hola muy buenas #name#,\n\nLe enviamos el acuerdo para completar el proceso del KIT DIGITAL \n#url#",
+            "sender": "KITDIGITAL",
+            "method": "sms"
+        },
+        {
+            "type": "otp",
+            "recipient": "SIGNATORY",
+            "reminder_lapse": "0",
+            "registered": "Y",
+            "text": "Le enviamos el siguiente código para completar el proceso:\n#otp#",
+            "sender": "KITDIGITAL"
+        }
+    ],
+    "email": [
+        {
+            "type": "reminder",
+            "body_template": "",
+            "attachment_file_group": [],
+            "body_free_text": "Una vez firmado procederemos a contactarle con la mayor brevedad posible.",
+            "reminder_lapse": "48.0",
+            "from_name": "EmpireSystems",
+            "cc": "",
+            "registered": "N",
+            "bcc": "",
+            "subject": "KIT DIGITAL - FIRMA PENDIENTE",
+            "to": "SIGNATORY"
+        }
+    ],
+    "whatsapp": [],
+    "landing": {
+        "landing_access_otp": "N",
+        "decline_reason": "not_required",
+        "landing_template": "",
+        "landing_access_pki": "N",
+        "url_redirect_delay": 2,
+        "landing_access_max_retries": 50,
+        "display_signatories": "Y",
+        "landing_access_code": "N",
+        "upload_files_registered": "Y",
+        "signature_type": "on_sign",
+        "landing_access_accepted_pki": [],
+        "declinable_signature": "N",
+        "default_upload_files": [],
+        "signature_on_sign_required_elements": {
+            "allow_multiple_signature_methods": "N",
+            "otp_sending": "on_landing",
+            "handwritten": "Y",
+            "typed": "N",
+            "simple": "N",
+            "otp_length": "4",
+            "image": "N",
+            "otp_max_retries": "3",
+            "otp": "Y",
+            "accepted_pki": []
+        },
+        "enable_button": "always",
+        "default_url_redirect": "https://empiresystems.io"
+    },
+    "name": "EMPIRESYSTEMS",
+    "default_whatsapp_sender_name": "",
+    "signatory_cb_url": "",
+    "registered_company_vat_number": "45780908Y",
+    "default_whatsapp_phone_number": "",
+    "registered_langs": "ES",
+    "logo_url": "",
+    "signatory_whatsapp_cb_url": "",
+    "lang": "ES",
+    "registered_company_name": "EMPIRESYSTEMS",
+    "default_email_from_name": "EmpireSystems",
+    "signatory_email_cb_url": "",
+    "default_sms_sender": "KITDIGITAL",
+    "config_id": "88671",
+    "signatory_sms_cb_url": "",
+    "signatory_landing_cb_url": "",
+    "auto_cancel": "N",
+    "color_button_background": "#D32365",
+    "signatory_tags": ["name"],
+    "cb_passphrase": "",
+    "color_text": "#4B4F54",
+    "signature_cb_url": "",
+    "color_button_text": "#FFFFFF",
+    "status": "enabled",
+    "color_background": "#FFFFFF"
+}

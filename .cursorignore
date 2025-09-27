@@ -1,0 +1,31 @@
+# Archivos de configuración sensibles
+.env
+.env.*
+!.env.example
+
+# Archivos de caché
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+
+# Archivos de vendor
+vendor/
+node_modules/
+
+# Archivos de build
+public/build/
+public/hot
+
+# Archivos de base de datos
+database/database.sqlite
+*.sqlite
+
+# Archivos temporales
+*.tmp
+*.temp
+
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

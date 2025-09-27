@@ -1,0 +1,353 @@
+{
+  "_bootstrap-icons-BI69yjDX.css": {
+    "file": "assets/bootstrap-icons-BI69yjDX.css",
+    "src": "_bootstrap-icons-BI69yjDX.css"
+  },
+  "_currency.es-9OAR_aOO.js": {
+    "file": "assets/currency.es-9OAR_aOO.js",
+    "name": "currency.es"
+  },
+  "_jquery-CNoSqujR.js": {
+    "file": "assets/jquery-CNoSqujR.js",
+    "name": "jquery"
+  },
+  "_jszip-DK9L5BP2.css": {
+    "file": "assets/jszip-DK9L5BP2.css",
+    "src": "_jszip-DK9L5BP2.css"
+  },
+  "_jszip.min-CLUJhKXK.js": {
+    "file": "assets/jszip.min-CLUJhKXK.js",
+    "name": "jszip.min",
+    "imports": [
+      "_jquery-CNoSqujR.js"
+    ],
+    "css": [
+      "assets/jszip-DK9L5BP2.css"
+    ]
+  },
+  "_slimselect-DgWKNcG4.js": {
+    "file": "assets/slimselect-DgWKNcG4.js",
+    "name": "slimselect",
+    "imports": [
+      "_jquery-CNoSqujR.js"
+    ]
+  },
+  "_summernote-es-ES-DD3YQBAj.css": {
+    "file": "assets/summernote-es-ES-DD3YQBAj.css",
+    "src": "_summernote-es-ES-DD3YQBAj.css"
+  },
+  "_summernote-es-ES.min-CuagP905.js": {
+    "file": "assets/summernote-es-ES.min-CuagP905.js",
+    "name": "summernote-es-ES.min",
+    "imports": [
+      "_jquery-CNoSqujR.js"
+    ],
+    "css": [
+      "assets/summernote-es-ES-DD3YQBAj.css"
+    ],
+    "assets": [
+      "assets/summernote-jt9apK1s.eot",
+      "assets/summernote-tk6LuLER.woff2",
+      "assets/summernote-MGhHcnpK.woff",
+      "assets/summernote-BDPkqvsB.ttf"
+    ]
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons-BeopsB42.woff",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons-mSm7cUeB.woff2",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
+  },
+  "node_modules/summernote/dist/font/summernote.eot": {
+    "file": "assets/summernote-jt9apK1s.eot",
+    "src": "node_modules/summernote/dist/font/summernote.eot"
+  },
+  "node_modules/summernote/dist/font/summernote.ttf": {
+    "file": "assets/summernote-BDPkqvsB.ttf",
+    "src": "node_modules/summernote/dist/font/summernote.ttf"
+  },
+  "node_modules/summernote/dist/font/summernote.woff": {
+    "file": "assets/summernote-MGhHcnpK.woff",
+    "src": "node_modules/summernote/dist/font/summernote.woff"
+  },
+  "node_modules/summernote/dist/font/summernote.woff2": {
+    "file": "assets/summernote-tk6LuLER.woff2",
+    "src": "node_modules/summernote/dist/font/summernote.woff2"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-5q5FGaiO.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js"
+    ]
+  },
+  "resources/js/articulos.js": {
+    "file": "assets/articulos-qVjvcSya.js",
+    "name": "articulos",
+    "src": "resources/js/articulos.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js",
+      "_currency.es-9OAR_aOO.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/clientes.js": {
+    "file": "assets/clientes-GAAdi13t.js",
+    "name": "clientes",
+    "src": "resources/js/clientes.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/cobros.js": {
+    "file": "assets/cobros-C95iu8O6.js",
+    "name": "cobros",
+    "src": "resources/js/cobros.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js",
+      "_currency.es-9OAR_aOO.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/configuracion.js": {
+    "file": "assets/configuracion-DST6kpAb.js",
+    "name": "configuracion",
+    "src": "resources/js/configuracion.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/crear_factura.js": {
+    "file": "assets/crear_factura-DHPfcvLR.js",
+    "name": "crear_factura",
+    "src": "resources/js/crear_factura.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js",
+      "_currency.es-9OAR_aOO.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/email_marketing.js": {
+    "file": "assets/email_marketing-BM6jW3wy.js",
+    "name": "email_marketing",
+    "src": "resources/js/email_marketing.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_summernote-es-ES.min-CuagP905.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/empleados.js": {
+    "file": "assets/empleados-BsrcrL2I.js",
+    "name": "empleados",
+    "src": "resources/js/empleados.js",
+    "isEntry": true,
+    "imports": [
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js",
+      "_currency.es-9OAR_aOO.js",
+      "_jquery-CNoSqujR.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/estadisticas.js": {
+    "file": "assets/estadisticas--kRzsfZI.js",
+    "name": "estadisticas",
+    "src": "resources/js/estadisticas.js",
+    "isEntry": true,
+    "imports": [
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js",
+      "_currency.es-9OAR_aOO.js",
+      "_jquery-CNoSqujR.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/facturas.js": {
+    "file": "assets/facturas-Cb3wiOr_.js",
+    "name": "facturas",
+    "src": "resources/js/facturas.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js",
+      "_currency.es-9OAR_aOO.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/gastos.js": {
+    "file": "assets/gastos-CyYHbW9i.js",
+    "name": "gastos",
+    "src": "resources/js/gastos.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js",
+      "_currency.es-9OAR_aOO.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/leyma_creditos.js": {
+    "file": "assets/leyma_creditos-B8AIN-7w.js",
+    "name": "leyma_creditos",
+    "src": "resources/js/leyma_creditos.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_currency.es-9OAR_aOO.js"
+    ]
+  },
+  "resources/js/perfil.js": {
+    "file": "assets/perfil-DAYuTHG7.js",
+    "name": "perfil",
+    "src": "resources/js/perfil.js",
+    "isEntry": true
+  },
+  "resources/js/plantilla_emails.js": {
+    "file": "assets/plantilla_emails-CwPGIpIa.js",
+    "name": "plantilla_emails",
+    "src": "resources/js/plantilla_emails.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_summernote-es-ES.min-CuagP905.js",
+      "_slimselect-DgWKNcG4.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/roles.js": {
+    "file": "assets/roles-BLji4c0i.js",
+    "name": "roles",
+    "src": "resources/js/roles.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/js/users.js": {
+    "file": "assets/users-DaNguEQC.js",
+    "name": "users",
+    "src": "resources/js/users.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-CNoSqujR.js",
+      "_jszip.min-CLUJhKXK.js",
+      "_slimselect-DgWKNcG4.js"
+    ],
+    "css": [
+      "assets/bootstrap-icons-BI69yjDX.css"
+    ],
+    "assets": [
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
+    ]
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-Cru9WkKw.css",
+    "src": "resources/sass/app.scss",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  }
+}
