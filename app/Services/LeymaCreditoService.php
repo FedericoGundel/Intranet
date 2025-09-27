@@ -53,7 +53,7 @@ class LeymaCreditoService
                 'cantidad_cuotas' => $datos['cantidad_cuotas'],
                 'fecha_inicio' => $datos['fecha_inicio'],
                 'observaciones' => $datos['observaciones'] ?? null,
-                'usuario_id' => Auth::id() ?? 1
+                'usuario_id' => $datos['usuario_id'] ?? Auth::id() ?? 1
             ];
 
             // Para créditos contado, agregar fecha_vencimiento (fecha de pago único)

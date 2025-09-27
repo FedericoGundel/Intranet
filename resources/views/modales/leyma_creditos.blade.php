@@ -19,6 +19,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-2">
+                                <label class="form-label p-0 col-form-label-sm">Usuario Responsable *</label>
+                                <select class="form-select form-select-sm" id="usuario_id" name="usuario_id" required>
+                                    <option value="">Seleccionar usuario</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
                                 <label class="form-label p-0 col-form-label-sm">Monto Principal *</label>
                                 <input type="number" class="form-control form-control-sm" id="monto_principal"
                                     name="monto_principal" step="0.01" required>

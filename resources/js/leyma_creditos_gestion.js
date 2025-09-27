@@ -23,6 +23,7 @@ import SlimSelect from "slim-select";
 import currency from "currency.js";
 let tableCreditos;
 let selectClientes;
+let selectUsuarios;
 
 // Estado global de la aplicación de créditos
 const estadoGlobal = {
@@ -171,6 +172,36 @@ function inicializarSelects() {
         })
         .catch((error) => {
             console.error("Error al inicializar select de clientes:", error);
+        });
+
+    // Inicializar select de usuarios
+    fetch("/api/leyma-creditos/creditos/create")
+        .then((response) => response.json())
+        .then((data) => {
+            const usuarios = data.usuarios || [];
+            const options = usuarios.map((usuario) => ({
+                text: usuario.name,
+                value: String(usuario.id),
+            }));
+            options.unshift({ text: "Seleccionar usuario", value: "" });
+
+            selectUsuarios = new SlimSelect({
+                select: "#usuario_id",
+                data: options,
+                settings: {
+                    showSearch: true,
+                    focusSearch: false,
+                    searchHighlight: true,
+                    placeholder: "Buscar usuario...",
+                    searchText: "No se encontraron resultados",
+                    searchPlaceholder: "Buscar...",
+                },
+            });
+
+            console.log("Select de usuarios inicializado correctamente");
+        })
+        .catch((error) => {
+            console.error("Error al inicializar select de usuarios:", error);
         });
 }
 
@@ -528,6 +559,12 @@ function guardarCredito() {
         formData.set("cliente_id", clienteIdValor);
     }
 
+    // Asegurar que usuario_id viaja (SlimSelect/valor del select)
+    const usuarioIdValor = $("#usuario_id").val();
+    if (usuarioIdValor != null) {
+        formData.set("usuario_id", usuarioIdValor);
+    }
+
     $.ajax({
         url: url,
         type: method,
@@ -709,6 +746,19 @@ function editarCredito(id) {
                 selectClientes.setSelected(String(response.cliente_id));
             }
             $("#cliente_id").val(String(response.cliente_id)).trigger("change");
+
+            // Establecer usuario seleccionado
+            if (
+                selectUsuarios &&
+                typeof selectUsuarios.setSelected === "function"
+            ) {
+                selectUsuarios.setSelected(
+                    String(response.usuario_id || response.user_id)
+                );
+            }
+            $("#usuario_id")
+                .val(String(response.usuario_id || response.user_id))
+                .trigger("change");
             $("#monto_principal").val(response.monto_principal);
             $("#tipo_pago").val(response.tipo_pago);
             $("#cantidad_cuotas").val(response.cantidad_cuotas);
@@ -1115,6 +1165,9 @@ function limpiarFormulario() {
     $("#monto_a_cobrar").val("");
     if (selectClientes && typeof selectClientes.setSelected === "function") {
         selectClientes.setSelected("");
+    }
+    if (selectUsuarios && typeof selectUsuarios.setSelected === "function") {
+        selectUsuarios.setSelected("");
     }
 }
 

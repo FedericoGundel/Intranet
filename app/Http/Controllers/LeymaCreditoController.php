@@ -416,6 +416,7 @@ class LeymaCreditoController extends Controller
     public function create()
     {
         $clientes = ClienteCredito::orderBy('nombre')->get();
+        $usuarios = \App\Models\User::orderBy('name')->get();
         $tiposCredito = [
             ['id' => 'diario', 'nombre' => 'Diario'],
             ['id' => 'semanal', 'nombre' => 'Semanal'],
@@ -425,6 +426,7 @@ class LeymaCreditoController extends Controller
 
         return response()->json([
             'clientes' => $clientes,
+            'usuarios' => $usuarios,
             'tipos_credito' => $tiposCredito
         ]);
     }
@@ -479,6 +481,7 @@ class LeymaCreditoController extends Controller
         try {
             $validated = $request->validate([
                 'cliente_id' => 'required|exists:clientes_credito,id',
+                'usuario_id' => 'required|exists:users,id',
                 'monto_principal' => 'required|numeric|min:0.01',
                 'tipo_pago' => 'required|in:diario,semanal,quincenal,contado',
                 'cantidad_cuotas' => 'required|integer|min:1',
@@ -512,6 +515,7 @@ class LeymaCreditoController extends Controller
             $credito = Credito::findOrFail($id);
 
             $validated = $request->validate([
+                'usuario_id' => 'required|exists:users,id',
                 'monto_principal' => 'required|numeric|min:0.01',
                 'tipo_pago' => 'required|in:diario,semanal,quincenal,contado',
                 'cantidad_cuotas' => 'required|integer|min:1',
