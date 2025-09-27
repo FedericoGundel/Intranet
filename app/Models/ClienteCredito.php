@@ -22,7 +22,8 @@ class ClienteCredito extends Model
         'garante_telefono',
         'garante_domicilio',
         'estado',
-        'observaciones'
+        'observaciones',
+        'permite_creditos_multiples'
     ];
 
     protected $casts = [
@@ -82,8 +83,14 @@ class ClienteCredito extends Model
         return $this->creditos()->activos()->exists();
     }
 
+    public function getCreditosActivos()
+    {
+        return $this->creditos()->activos()->get();
+    }
+
     public function getCreditoActivo()
     {
+        // Retorna el primer crédito activo (para compatibilidad)
         return $this->creditos()->activos()->first();
     }
 

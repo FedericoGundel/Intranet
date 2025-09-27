@@ -93,6 +93,8 @@
                                                 <th>Domicilio</th>
                                                 <th>Comercio</th>
                                                 <th>Garante</th>
+                                                <th>Créditos Activos</th>
+                                                <th>Múltiples Créditos</th>
                                                 <th>Fecha Registro</th>
                                                 <th class="text-start">Acciones</th>
                                             </tr>

@@ -43,6 +43,7 @@ class ClienteCreditoController extends Controller
                 'estado' => $cliente->estado ?? 'inactivo',
                 'tiene_garante' => $cliente->tiene_garante ?? false,
                 'garante_nombre' => $cliente->garante_nombre ?? 'Sin garante',
+                'permite_creditos_multiples' => $cliente->permite_creditos_multiples ?? true,
                 'creditos_activos' => $creditosActivos->count(),
                 'total_prestado' => $totalPrestado,
                 'total_pagado' => $totalPagado,
@@ -81,7 +82,9 @@ class ClienteCreditoController extends Controller
                     'text' => "{$cliente->nombre} - {$cliente->dni}",
                     'dni' => $cliente->dni,
                     'telefono' => $cliente->telefono,
-                    'comercio' => $cliente->comercio_negocio
+                    'comercio' => $cliente->comercio_negocio,
+                    'permite_creditos_multiples' => $cliente->permite_creditos_multiples ?? true,
+                    'creditos_activos' => $cliente->creditos_activos ?? 0
                 ];
             })
         );

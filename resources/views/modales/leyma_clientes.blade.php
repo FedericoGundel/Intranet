@@ -93,6 +93,18 @@
                                 <textarea class="form-control form-control-sm" id="observaciones" name="observaciones" rows="3"></textarea>
                             </div>
                         </div>
+
+                        <div class="col-12">
+                            <div class="mb-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="permite_creditos_multiples" name="permite_creditos_multiples" checked>
+                                    <label class="form-check-label" for="permite_creditos_multiples">
+                                        Permite múltiples créditos activos
+                                    </label>
+                                </div>
+                                <small class="text-muted">Si está activado, el cliente puede tener varios créditos activos simultáneamente</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

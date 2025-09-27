@@ -21,11 +21,11 @@ class LeymaCreditoService
     public function crearCredito(array $datos): Credito
     {
         return DB::transaction(function () use ($datos) {
-            // Validar que el cliente no tenga crédito activo
+            // Verificar si el cliente puede tener múltiples créditos activos
             $cliente = ClienteCredito::findOrFail($datos['cliente_id']);
-            if ($cliente->tieneCreditoActivo()) {
+            if (!$cliente->permite_creditos_multiples && $cliente->tieneCreditoActivo()) {
                 throw ValidationException::withMessages([
-                    'cliente_id' => 'El cliente ya tiene un crédito activo'
+                    'cliente_id' => 'El cliente ya tiene un crédito activo y no puede tener múltiples créditos'
                 ]);
             }
 

@@ -47,6 +47,20 @@ function inicializarTabla() {
             { data: "domicilio", name: "domicilio" },
             { data: "comercio_negocio", name: "comercio_negocio" },
             { data: "garante_nombre", name: "garante_nombre" },
+            {
+                data: "creditos_activos",
+                name: "creditos_activos",
+                render: function (data, type, row) {
+                    return data || 0;
+                }
+            },
+            {
+                data: "permite_creditos_multiples",
+                name: "permite_creditos_multiples",
+                render: function (data, type, row) {
+                    return data ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>';
+                }
+            },
             { data: "created_at", name: "created_at" },
             {
                 data: null,
