@@ -19,11 +19,8 @@ import "datatables.net-buttons/js/buttons.colVis.js";
 import "jszip";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-import SlimSelect from "slim-select";
 import currency from "currency.js";
 let tableCreditos;
-let selectClientes;
-let selectUsuarios;
 
 // Estado global de la aplicación de créditos
 const estadoGlobal = {
@@ -139,36 +136,25 @@ function inicializarSelects() {
     fetch("/api/leyma-creditos/clientes/data-tom")
         .then((response) => response.json())
         .then((clientes) => {
-            const options = clientes.map((cliente) => ({
-                text: cliente.text,
-                value: String(cliente.value),
-            }));
-            options.unshift({ text: "Seleccionar cliente", value: "" });
+            const select = $("#cliente_id");
+            select.empty();
+            select.append('<option value="">Seleccionar cliente</option>');
 
-            selectClientes = new SlimSelect({
-                select: "#cliente_id",
-                data: options,
-                settings: {
-                    showSearch: true,
-                    focusSearch: false,
-                    searchHighlight: true,
-                    placeholder: "Buscar cliente...",
-                    searchText: "No se encontraron resultados",
-                    searchPlaceholder: "Buscar...",
-                },
+            clientes.forEach((cliente) => {
+                select.append(
+                    `<option value="${cliente.value}">${cliente.text}</option>`
+                );
             });
 
-            // Evento cuando se selecciona un cliente
-            selectClientes.onChange = function (selection) {
-                console.log("Cliente seleccionado:", selection);
-                if (selection.value) {
-                    cargarDatosCliente(selection.value);
-                } else {
-                    console.log("No hay cliente seleccionado");
-                }
-            };
-
             console.log("Select de clientes inicializado correctamente");
+
+            // Evento cuando se selecciona un cliente
+            $("#cliente_id").on("change", function () {
+                const clienteId = $(this).val();
+                if (clienteId) {
+                    cargarDatosCliente(clienteId);
+                }
+            });
         })
         .catch((error) => {
             console.error("Error al inicializar select de clientes:", error);
@@ -179,23 +165,14 @@ function inicializarSelects() {
         .then((response) => response.json())
         .then((data) => {
             const usuarios = data.usuarios || [];
-            const options = usuarios.map((usuario) => ({
-                text: usuario.name,
-                value: String(usuario.id),
-            }));
-            options.unshift({ text: "Seleccionar usuario", value: "" });
+            const select = $("#usuario_id");
+            select.empty();
+            select.append('<option value="">Seleccionar usuario</option>');
 
-            selectUsuarios = new SlimSelect({
-                select: "#usuario_id",
-                data: options,
-                settings: {
-                    showSearch: true,
-                    focusSearch: false,
-                    searchHighlight: true,
-                    placeholder: "Buscar usuario...",
-                    searchText: "No se encontraron resultados",
-                    searchPlaceholder: "Buscar...",
-                },
+            usuarios.forEach((usuario) => {
+                select.append(
+                    `<option value="${usuario.id}">${usuario.name}</option>`
+                );
             });
 
             console.log("Select de usuarios inicializado correctamente");
@@ -553,17 +530,7 @@ function guardarCredito() {
         formData.set("_method", "PUT");
     }
 
-    // Asegurar que cliente_id viaja (SlimSelect/valor del select)
-    const clienteIdValor = $("#cliente_id").val();
-    if (clienteIdValor != null) {
-        formData.set("cliente_id", clienteIdValor);
-    }
-
-    // Asegurar que usuario_id viaja (SlimSelect/valor del select)
-    const usuarioIdValor = $("#usuario_id").val();
-    if (usuarioIdValor != null) {
-        formData.set("usuario_id", usuarioIdValor);
-    }
+    // Los valores ya están en formData automáticamente
 
     $.ajax({
         url: url,
@@ -739,23 +706,10 @@ function editarCredito(id) {
             $("#modalCreditoLabel").text("Editar Crédito");
             $("#formCredito").attr("data-id", id);
 
-            if (
-                selectClientes &&
-                typeof selectClientes.setSelected === "function"
-            ) {
-                selectClientes.setSelected(String(response.cliente_id));
-            }
+            // Establecer cliente seleccionado
             $("#cliente_id").val(String(response.cliente_id)).trigger("change");
 
             // Establecer usuario seleccionado
-            if (
-                selectUsuarios &&
-                typeof selectUsuarios.setSelected === "function"
-            ) {
-                selectUsuarios.setSelected(
-                    String(response.usuario_id || response.user_id)
-                );
-            }
             $("#usuario_id")
                 .val(String(response.usuario_id || response.user_id))
                 .trigger("change");
@@ -1163,12 +1117,6 @@ function limpiarFormulario() {
     $("#modalCreditoLabel").text("Nuevo Crédito");
     $("#formCredito").removeAttr("data-id");
     $("#monto_a_cobrar").val("");
-    if (selectClientes && typeof selectClientes.setSelected === "function") {
-        selectClientes.setSelected("");
-    }
-    if (selectUsuarios && typeof selectUsuarios.setSelected === "function") {
-        selectUsuarios.setSelected("");
-    }
 }
 
 function cargarEstadisticas() {
