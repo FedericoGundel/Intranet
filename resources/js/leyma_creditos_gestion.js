@@ -123,12 +123,70 @@ function inicializarTabla() {
             url: "/api/leyma-creditos/creditos/data",
             type: "GET",
             dataSrc: "data",
+            data: function (d) {
+                // Añadir filtros a la petición AJAX
+                d.usuario_id = $("#filtro_usuario").val();
+                d.estado = $("#filtro_estado").val();
+                d.tipo_pago = $("#filtro_tipo").val();
+                return d;
+            },
         },
         columns: columnasCreditos,
         order: [[0, "desc"]], // Ordenar por ID descendente por defecto
     });
 
     tableCreditos = $("#creditos_table").DataTable(configCreditos);
+}
+
+function inicializarFiltros() {
+    // Inicializar select de usuarios para filtro
+    fetch("/api/leyma-creditos/creditos/create")
+        .then((response) => response.json())
+        .then((data) => {
+            const usuarios = data.usuarios || [];
+            const select = $("#filtro_usuario");
+            select.empty();
+            select.append('<option value="">Todos los usuarios</option>');
+
+            usuarios.forEach((usuario) => {
+                select.append(
+                    `<option value="${usuario.id}">${usuario.name}</option>`
+                );
+            });
+        })
+        .catch((error) => {
+            console.error("Error al cargar usuarios para filtro:", error);
+        });
+
+    // Eventos de filtrado
+    $("#filtro_usuario").on("change", function () {
+        aplicarFiltros();
+    });
+
+    $("#filtro_estado").on("change", function () {
+        aplicarFiltros();
+    });
+
+    $("#filtro_tipo").on("change", function () {
+        aplicarFiltros();
+    });
+
+    // Botón limpiar filtros
+    $("#limpiar_filtros").on("click", function () {
+        $("#filtro_usuario").val("");
+        $("#filtro_estado").val("");
+        $("#filtro_tipo").val("");
+        aplicarFiltros();
+    });
+}
+
+function aplicarFiltros() {
+    const usuarioId = $("#filtro_usuario").val();
+    const estado = $("#filtro_estado").val();
+    const tipo = $("#filtro_tipo").val();
+
+    // Actualizar la configuración AJAX de DataTables con filtros
+    tableCreditos.ajax.reload();
 }
 
 function inicializarSelects() {
@@ -195,7 +253,30 @@ function cargarDatosCliente(clienteId) {
         });
 }
 
+function cargarOpcionesCuotas(creditoId) {
+    // Cargar información del crédito para obtener la cantidad de cuotas
+    fetch(`/api/leyma-creditos/creditos/${creditoId}`)
+        .then((response) => response.json())
+        .then((credito) => {
+            const cantidadCuotas = credito.cantidad_cuotas || 0;
+            const select = $("#aj_ultimo_pago_considerado");
+            select.empty();
+            select.append('<option value="">Usar última cuota pagada</option>');
+
+            // Añadir opciones para cada cuota
+            for (let i = 1; i <= cantidadCuotas; i++) {
+                select.append(`<option value="${i}">Cuota ${i}</option>`);
+            }
+        })
+        .catch((error) => {
+            console.error("Error al cargar opciones de cuotas:", error);
+        });
+}
+
 function inicializarEventos() {
+    // Inicializar filtros después de que la tabla esté lista
+    inicializarFiltros();
+
     // Formulario de crédito
     $("#formCredito").on("submit", function (e) {
         e.preventDefault();
@@ -348,6 +429,10 @@ function inicializarEventos() {
         if (!creditoId) return;
         $("#formAgregarAjusteCredito").data("credito-id", creditoId);
         $("#formAgregarAjusteCredito")[0].reset();
+
+        // Cargar opciones de cuotas para descuentos
+        cargarOpcionesCuotas(creditoId);
+
         $("#modalAgregarAjusteCredito").modal("show");
     });
 
@@ -399,7 +484,13 @@ function inicializarEventos() {
 
     // Event listeners para validación
     $("#aj_monto").on("input", validarMontoAjuste);
-    $("#aj_tipo").on("change", validarMontoAjuste);
+    $("#aj_tipo").on("change", function () {
+        validarMontoAjuste();
+        // Mostrar/ocultar campo de cuota para descuentos
+        const esDescuento = $(this).val() === "descuento";
+        $("#ultimo_pago_container").toggle(esDescuento);
+        $("#descuento_info").toggle(esDescuento);
+    });
 
     $(document).on("submit", "#formAgregarAjusteCredito", function (e) {
         e.preventDefault();
@@ -707,7 +798,7 @@ function editarCredito(id) {
             $("#formCredito").attr("data-id", id);
 
             // Establecer cliente seleccionado
-            $("#cliente_id").val(String(response.cliente_id)).trigger("change");
+            $("#cliente_id").val(String(response.cliente.id)).trigger("change");
 
             // Establecer usuario seleccionado
             $("#usuario_id")
@@ -808,6 +899,7 @@ function verAjustesCredito(id) {
                     tipo: "Recargo",
                     concepto: r.concepto || "",
                     monto: parseFloat(r.monto) || 0,
+                    ultimo_pago: "—",
                     observaciones: r.observaciones || "",
                     usuario: r.usuario?.name || "—",
                 });
@@ -818,6 +910,9 @@ function verAjustesCredito(id) {
                     tipo: "Descuento",
                     concepto: d.concepto || "",
                     monto: parseFloat(d.monto) || 0,
+                    ultimo_pago: d.ultimo_pago_considerado
+                        ? `Cuota ${d.ultimo_pago_considerado}`
+                        : "Automático",
                     observaciones: d.observaciones || "",
                     usuario: d.usuario?.name || "—",
                 });
@@ -842,6 +937,7 @@ function verAjustesCredito(id) {
                     }</span></td>
                         <td>${row.concepto}</td>
                         <td>${formatearMoneda(row.monto)}</td>
+                        <td>${row.ultimo_pago}</td>
                         <td>${row.observaciones}</td>
                         <td>${row.usuario}</td>
                     </tr>`;
@@ -862,6 +958,8 @@ async function guardarAjusteCredito() {
     const monto = parseFloat($("#aj_monto").val()) || 0;
     const concepto = $("#aj_concepto").val();
     const observaciones = $("#aj_obs").val() || "";
+    const ultimoPagoConsiderado =
+        $("#aj_ultimo_pago_considerado").val() || null;
 
     if (!creditoId || !tipo || !monto || !concepto) return;
 
@@ -869,6 +967,19 @@ async function guardarAjusteCredito() {
         tipo === "recargo"
             ? "/api/leyma-creditos/aplicar-recargo"
             : "/api/leyma-creditos/aplicar-descuento";
+
+    const requestData = {
+        credito_id: creditoId,
+        monto,
+        concepto,
+        observaciones,
+    };
+
+    // Solo añadir ultimo_pago_considerado para descuentos
+    if (tipo === "descuento" && ultimoPagoConsiderado) {
+        requestData.ultimo_pago_considerado = parseInt(ultimoPagoConsiderado);
+    }
+
     try {
         const resp = await fetch(endpoint, {
             method: "POST",
@@ -877,12 +988,7 @@ async function guardarAjusteCredito() {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                credito_id: creditoId,
-                monto,
-                concepto,
-                observaciones,
-            }),
+            body: JSON.stringify(requestData),
         });
         const data = await resp.json();
         if (!resp.ok || !data.success)

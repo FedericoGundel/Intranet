@@ -121,22 +121,45 @@ class LeymaCreditoService
     }
 
     /**
-     * Aplicar descuento a un crédito
+     * Aplicar descuento a un crédito sobre el saldo insoluto
      */
-    public function aplicarDescuento(int $creditoId, float $monto, string $concepto, ?string $observaciones = null): Descuento
+    public function aplicarDescuento(int $creditoId, float $monto, string $concepto, ?string $observaciones = null, ?int $ultimoPagoConsiderado = null): Descuento
     {
-        return DB::transaction(function () use ($creditoId, $monto, $concepto, $observaciones) {
+        return DB::transaction(function () use ($creditoId, $monto, $concepto, $observaciones, $ultimoPagoConsiderado) {
+            $credito = Credito::findOrFail($creditoId);
+
+            // Si no se especifica ultimo_pago_considerado, usar la última cuota pagada
+            if ($ultimoPagoConsiderado === null) {
+                $ultimoPagoConsiderado = $credito->getUltimaCuotaPagada();
+            }
+
+            // Calcular saldo insoluto después de la última cuota pagada
+            $saldoInsoluto = $credito->getSaldoInsolutoDespuesDe($ultimoPagoConsiderado);
+
+            // Validar que el descuento no exceda el saldo insoluto
+            if ($monto > $saldoInsoluto) {
+                throw ValidationException::withMessages([
+                    'monto' => 'El descuento no puede exceder el saldo insoluto (capital pendiente después de la cuota ' . $ultimoPagoConsiderado . ')'
+                ]);
+            }
+
+            // Crear el descuento
             $descuento = Descuento::create([
                 'credito_id' => $creditoId,
                 'monto' => $monto,
+                'ultimo_pago_considerado' => $ultimoPagoConsiderado,
                 'concepto' => $concepto,
                 'fecha_aplicacion' => Carbon::now()->toDateString(),
                 'observaciones' => $observaciones,
                 'usuario_id' => Auth::id() ?? 1
             ]);
 
-            // Actualizar el crédito
-            $descuento->actualizarCredito();
+            // Recalcular el plan de pagos si hay cuotas restantes
+            $cuotasRestantes = $credito->cantidad_cuotas - $ultimoPagoConsiderado;
+            if ($cuotasRestantes > 0) {
+                $nuevoCapitalRestante = $saldoInsoluto - $monto;
+                $credito->recalcularPlanPagos($ultimoPagoConsiderado + 1, $nuevoCapitalRestante);
+            }
 
             return $descuento;
         });

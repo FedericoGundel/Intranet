@@ -61,6 +61,48 @@
                     </div>
                 </div>
 
+                <!-- Filtros -->
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <div class="card m-0">
+                            <div class="card-body py-2">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-md-3">
+                                        <label class="form-label mb-1">Filtrar por Usuario</label>
+                                        <select class="form-select form-select-sm" id="filtro_usuario">
+                                            <option value="">Todos los usuarios</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label mb-1">Filtrar por Estado</label>
+                                        <select class="form-select form-select-sm" id="filtro_estado">
+                                            <option value="">Todos los estados</option>
+                                            <option value="activo">Activo</option>
+                                            <option value="pagado">Pagado</option>
+                                            <option value="vencido">Vencido</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label mb-1">Filtrar por Tipo</label>
+                                        <select class="form-select form-select-sm" id="filtro_tipo">
+                                            <option value="">Todos los tipos</option>
+                                            <option value="diario">Diario</option>
+                                            <option value="semanal">Semanal</option>
+                                            <option value="quincenal">Quincenal</option>
+                                            <option value="contado">Contado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-outline-secondary btn-sm w-100" id="limpiar_filtros">
+                                            <i class="fas fa-times me-1"></i>Limpiar Filtros
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Tabla -->
                 <div class="row">
                     <div class="col-12">

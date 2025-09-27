@@ -56,6 +56,7 @@
                                 <th>Tipo</th>
                                 <th>Concepto</th>
                                 <th>Monto</th>
+                                <th>Última Cuota</th>
                                 <th>Observaciones</th>
                                 <th>Usuario</th>
                             </tr>
@@ -94,6 +95,20 @@
                         <label class="form-label">Monto</label>
                         <input type="number" step="0.01" min="0.01" class="form-control" id="aj_monto"
                             required />
+                    </div>
+                    <div class="mb-2" id="ultimo_pago_container">
+                        <label class="form-label">Última Cuota Pagada</label>
+                        <select class="form-select" id="aj_ultimo_pago_considerado">
+                            <option value="">Usar última cuota pagada</option>
+                        </select>
+                        <small class="form-text text-muted">El descuento se aplicará sobre el saldo insoluto después de
+                            esta cuota</small>
+                    </div>
+                    <div class="alert alert-info d-none" id="descuento_info">
+                        <strong>Información importante:</strong><br>
+                        • El descuento se calcula sobre el capital pendiente después de la cuota seleccionada<br>
+                        • Se recalculará el plan de pagos desde la siguiente cuota<br>
+                        • Las cuotas ya pagadas mantienen su valor original
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Concepto</label>

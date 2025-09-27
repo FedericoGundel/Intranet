@@ -14,6 +14,7 @@ class Descuento extends Model
     protected $fillable = [
         'credito_id',
         'monto',
+        'ultimo_pago_considerado',
         'concepto',
         'fecha_aplicacion',
         'observaciones',

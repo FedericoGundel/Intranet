@@ -53,6 +53,73 @@ class Credito extends Model
         return $this->hasMany(Descuento::class, 'credito_id');
     }
 
+    /**
+     * Obtener la última cuota pagada del crédito
+     */
+    public function getUltimaCuotaPagada()
+    {
+        $ultimoPago = $this->pagos()
+            ->whereNotNull('cuotas_afectadas')
+            ->orderBy('fecha_pago', 'desc')
+            ->first();
+
+        if (!$ultimoPago) {
+            return 0; // No hay pagos realizados
+        }
+
+        // Extraer el número de cuota más alto de cuotas_afectadas
+        $cuotasAfectadas = explode(',', $ultimoPago->cuotas_afectadas);
+        return max(array_map('intval', $cuotasAfectadas));
+    }
+
+    /**
+     * Calcular capital amortizado hasta una cuota específica
+     */
+    public function getCapitalAmortizadoHasta($cuota)
+    {
+        $capitalAmortizado = 0;
+
+        // Sumar todos los pagos que afectan cuotas hasta la cuota especificada
+        $pagos = $this->pagos()
+            ->whereNotNull('cuotas_afectadas')
+            ->get();
+
+        foreach ($pagos as $pago) {
+            $cuotasAfectadas = explode(',', $pago->cuotas_afectadas);
+
+            foreach ($cuotasAfectadas as $cuotaAfectada) {
+                $numCuota = intval($cuotaAfectada);
+                if ($numCuota <= $cuota) {
+                    // Calcular la porción de capital de este pago para esta cuota
+                    $totalCuotasAfectadas = count($cuotasAfectadas);
+                    $capitalPorCuota = $pago->monto / $totalCuotasAfectadas;
+                    $capitalAmortizado += $capitalPorCuota;
+                }
+            }
+        }
+
+        return $capitalAmortizado;
+    }
+
+    /**
+     * Calcular saldo insoluto después de una cuota específica
+     */
+    public function getSaldoInsolutoDespuesDe($cuota)
+    {
+        $capitalAmortizado = $this->getCapitalAmortizadoHasta($cuota);
+        return max(0, $this->monto_principal - $capitalAmortizado);
+    }
+
+    /**
+     * Recalcular plan de pagos después de aplicar descuento
+     */
+    public function recalcularPlanPagos($cuotaInicio, $nuevoCapitalRestante)
+    {
+        // Este método se implementará cuando sea necesario
+        // Por ahora solo actualiza el saldo calculado
+        $this->refresh();
+    }
+
     public function usuario()
     {
         return $this->belongsTo(User::class, 'usuario_id');

@@ -117,6 +117,7 @@ class LeymaCreditoController extends Controller
         $request->validate([
             'credito_id' => 'required|exists:creditos,id',
             'monto' => 'required|numeric|min:0.01',
+            'ultimo_pago_considerado' => 'nullable|integer|min:0',
             'concepto' => 'required|string|max:255',
             'observaciones' => 'nullable|string'
         ]);
@@ -126,7 +127,8 @@ class LeymaCreditoController extends Controller
                 $request->credito_id,
                 $request->monto,
                 $request->concepto,
-                $request->observaciones
+                $request->observaciones,
+                $request->ultimo_pago_considerado
             );
 
             return response()->json([
@@ -364,11 +366,46 @@ class LeymaCreditoController extends Controller
     /**
      * Obtener datos para DataTable de créditos
      */
-    public function data()
+    public function data(Request $request)
     {
-        $creditos = Credito::with(['cliente', 'pagos', 'recargos', 'descuentos'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = Credito::with(['cliente', 'pagos', 'recargos', 'descuentos', 'usuario']);
+
+        // Aplicar filtros
+        if ($request->filled('usuario_id')) {
+            $query->where('usuario_id', $request->usuario_id);
+        }
+
+        if ($request->filled('tipo_pago')) {
+            $query->where('tipo_pago', $request->tipo_pago);
+        }
+
+        if ($request->filled('estado')) {
+            $estado = strtolower($request->estado);
+            switch ($estado) {
+                case 'activo':
+                    $query->whereRaw('
+                        (SELECT COALESCE(SUM(monto), 0) FROM pagos_credito WHERE credito_id = creditos.id) <
+                        (monto_principal + (monto_principal * porcentaje_base / 100))
+                    ');
+                    break;
+                case 'pagado':
+                    $query->whereRaw('
+                        (SELECT COALESCE(SUM(monto), 0) FROM pagos_credito WHERE credito_id = creditos.id) >=
+                        (monto_principal + (monto_principal * porcentaje_base / 100))
+                    ');
+                    break;
+                case 'vencido':
+                    $query
+                        ->where('fecha_vencimiento', '<', now())
+                        ->whereRaw('
+                            (SELECT COALESCE(SUM(monto), 0) FROM pagos_credito WHERE credito_id = creditos.id) <
+                            (monto_principal + (monto_principal * porcentaje_base / 100))
+                        ');
+                    break;
+            }
+        }
+
+        $creditos = $query->orderBy('created_at', 'desc')->get();
 
         $data = $creditos->map(function ($credito) {
             return [
@@ -376,6 +413,9 @@ class LeymaCreditoController extends Controller
                 'cliente' => [
                     'nombre' => $credito->cliente ? $credito->cliente->nombre : 'Cliente no encontrado',
                     'dni' => $credito->cliente ? $credito->cliente->dni : 'N/A'
+                ],
+                'usuario' => [
+                    'nombre' => $credito->usuario ? $credito->usuario->name : 'Usuario no encontrado'
                 ],
                 'monto' => (float) $credito->monto_principal,
                 'tipo' => ucfirst($credito->tipo_pago),
@@ -442,6 +482,7 @@ class LeymaCreditoController extends Controller
         return response()->json([
             'id' => $credito->id,
             'numero_credito' => $credito->numero_credito,
+            'usuario_id' => $credito->usuario_id,
             'cliente' => $credito->cliente,
             'monto_principal' => (float) $credito->monto_principal,
             'monto_total' => (float) $credito->monto_total,
@@ -515,6 +556,7 @@ class LeymaCreditoController extends Controller
             $credito = Credito::findOrFail($id);
 
             $validated = $request->validate([
+                'cliente_id' => 'required|exists:clientes_credito,id',
                 'usuario_id' => 'required|exists:users,id',
                 'monto_principal' => 'required|numeric|min:0.01',
                 'tipo_pago' => 'required|in:diario,semanal,quincenal,contado',
